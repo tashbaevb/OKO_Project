@@ -4,26 +4,21 @@ import com.oko.OKO_Project.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User implements UserDetails {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     Long id;
 
     String email, password;
@@ -31,38 +26,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+    @Column(name = "reset_token")
+    String resetToken;
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+    @Column(name = "reset_token_expire_time")
+    LocalDateTime resetTokenExpireTime;
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+    @Column(name = "refresh_token")
+    String refreshToken;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    @Column(name = "refresh_token_expire_time")
+    LocalDateTime refreshTokenExpireTime;
 }
