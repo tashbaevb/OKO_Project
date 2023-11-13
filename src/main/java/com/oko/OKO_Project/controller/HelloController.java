@@ -1,32 +1,53 @@
 package com.oko.OKO_Project.controller;
 
-import com.oko.OKO_Project.entity.First;
-import com.oko.OKO_Project.service.FirstService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.oko.OKO_Project.entity.GovOrgan;
+import com.oko.OKO_Project.entity.Npa;
+import com.oko.OKO_Project.enums.GovOrgansType;
+import com.oko.OKO_Project.enums.NpaType;
+import com.oko.OKO_Project.service.GovOrgansService;
+import com.oko.OKO_Project.service.NpaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "First API", description = "API for managing First entities")
+@RequestMapping("/admin")
 public class HelloController {
-    private final FirstService firstService;
 
-    @PostMapping("/first")
-    @Operation(summary = "Create First Entity", description = "Create a new First entity")
-    public First create(@RequestBody First first) {
-        return firstService.create(first);
+    private final NpaService npaService;
+    private final GovOrgansService govOrgansService;
+
+    @PostMapping("/npa/create")
+    public Npa createNpa(@RequestBody Npa npa, @RequestParam NpaType type) {
+        npa.setNpaType(type);
+        return npaService.createNpa(npa);
     }
 
-    @GetMapping("/first")
-    @Operation(summary = "Get All First Entities", description = "Retrieve all First entities")
-    public List<First> getAll() {
-        return firstService.getAll();
+    @GetMapping("/npa/getAll")
+    public List<Npa> getAllNpa() {
+        return npaService.getAllNpa();
+    }
+
+    @GetMapping("/npa/getByType/{type}")
+    public List<Npa> getNpaByType(@PathVariable NpaType type) {
+        return npaService.getNpaByType(type);
+    }
+
+    @PostMapping("/govOrgan/create")
+    public GovOrgan createGovOrgan(@RequestBody GovOrgan govOrgans, @RequestParam GovOrgansType govOrgansType) {
+        govOrgans.setGovOrgansType(govOrgansType);
+        return govOrgansService.createGovOrgans(govOrgans);
+    }
+
+    @GetMapping("/govOrgan/getAll")
+    public List<GovOrgan> getAllGovOrgan() {
+        return govOrgansService.getAllGovOrgan();
+    }
+
+    @GetMapping("/govOrgan/getByType/{type}")
+    public List<GovOrgan> getByGovOrganType(@PathVariable GovOrgansType type) {
+        return govOrgansService.getGovOrganByType(type);
     }
 }

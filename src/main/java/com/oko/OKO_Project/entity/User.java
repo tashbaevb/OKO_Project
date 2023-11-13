@@ -32,9 +32,9 @@ public class User {
     @Column(name = "reset_token_expire_time")
     LocalDateTime resetTokenExpireTime;
 
-    @Column(name = "refresh_token")
-    String refreshToken;
-
-    @Column(name = "refresh_token_expire_time")
-    LocalDateTime refreshTokenExpireTime;
+//    @Column(name = "refresh_token")
+//    String refreshToken;
+//
+//    @Column(name = "refresh_token_expire_time")
+//    LocalDateTime refreshTokenExpireTime;
 }

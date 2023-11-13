@@ -6,6 +6,7 @@ import com.oko.OKO_Project.entity.User;
 import com.oko.OKO_Project.mappers.UserMapper;
 import com.oko.OKO_Project.security.JwtUtil;
 import com.oko.OKO_Project.service.security.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "API for Security", description = "Registration, Login, Reset password")
 public class AuthController {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
