@@ -11,5 +11,6 @@ public interface NpaService {
     Npa createNpa(Npa npa);
 
     List<Npa> getAllNpa();
+
     List<Npa> getNpaByType(NpaType npaType);
 }
