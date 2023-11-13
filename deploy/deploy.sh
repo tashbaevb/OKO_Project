@@ -5,13 +5,13 @@ mvn clean package -DskipTests
 
 echo "Copy files ..."
 
-scp -i ~/.ssh/gcloud-oko-ssh \
+scp -i ~/.ssh/oko \
     ./target/*.jar \
-    baiturtashbaev@34.141.109.206:~/deploko/hosting.jar
+    baiturtashbaev@34.89.216.69:~/deploko/hosting.jar
 
 echo "Restart server ..."
 
-ssh -i ~/.ssh/gcloud-oko-ssh baiturtashbaev@34.141.109.206 << EOF
+ssh -i ~/.ssh/oko baiturtashbaev@34.89.216.69 << EOF
 
 pgrep java | xargs kill -9
 nohup java -jar deploko/hosting.jar &
