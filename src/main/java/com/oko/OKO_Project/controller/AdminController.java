@@ -1,28 +1,17 @@
 package com.oko.OKO_Project.controller;
 
-import com.oko.OKO_Project.entity.Courses;
-import com.oko.OKO_Project.entity.GovOrgan;
-import com.oko.OKO_Project.entity.Npa;
-import com.oko.OKO_Project.entity.Unionists;
+import com.oko.OKO_Project.entity.*;
 import com.oko.OKO_Project.enums.GovOrgansType;
 import com.oko.OKO_Project.enums.NpaType;
 import com.oko.OKO_Project.enums.UnionistsType;
 import com.oko.OKO_Project.service.*;
-import io.github.classgraph.Resource;
+import com.oko.OKO_Project.service.impl.FileStorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +24,8 @@ public class AdminController {
     private final GovOrgansService govOrgansService;
     private final UnionistsService unionistsService;
     private final CoursesService coursesService;
+    private final AboutUsService aboutUsService;
+    private final FileStorageService fileStorageService;
 
 
     // НПА
@@ -108,5 +99,29 @@ public class AdminController {
         Optional<Courses> courses = coursesService.getCoursesById(id);
 
         return courses.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    //AboutUS
+    @GetMapping("/aboutus/getByid/{id}")
+    public ResponseEntity<AboutUs> getByAboutUsId(@PathVariable Long id){
+        Optional<AboutUs> aboutUs = aboutUsService.getAboutUsById(id);
+        return aboutUs.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("aboutus/getAll")
+    public List<AboutUs> getAllAboutUs(){
+        return aboutUsService.getAllAboutUs();
+    }
+
+    @PostMapping(value = "/aboutus/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public AboutUs createAbooutUs(
+            @RequestPart("file") MultipartFile file,
+            @ModelAttribute AboutUs aboutUs
+    ){
+        String fileName = fileStorageService.storeFile(file);
+        String fileDownloadUri = "/images/" + fileName;
+
+        aboutUs.setImgUrl(fileDownloadUri);
+        return aboutUsService.createAboutUs(aboutUs);
     }
 }
