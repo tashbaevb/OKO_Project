@@ -26,6 +26,7 @@ public class AdminController {
     private final CoursesService coursesService;
     private final AboutUsService aboutUsService;
     private final FileStorageService fileStorageService;
+    private final RegistryService registryService;
 
 
     // НПА
@@ -115,7 +116,7 @@ public class AdminController {
 
     @PostMapping(value = "/aboutus/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public AboutUs createAbooutUs(
-            @RequestPart("file") MultipartFile file,
+            @RequestPart("imgUrl") MultipartFile file,
             @ModelAttribute AboutUs aboutUs
     ){
         String fileName = fileStorageService.storeFile(file);
@@ -124,4 +125,24 @@ public class AdminController {
         aboutUs.setImgUrl(fileDownloadUri);
         return aboutUsService.createAboutUs(aboutUs);
     }
+
+    //Registry
+
+    @GetMapping("registry/getAll")
+    public List<Registry> getRegistryAll(){
+        return registryService.getRegistryAll();
+    }
+
+    @PostMapping(value = "registry/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Registry createRegistry(
+            @RequestPart("imgUrl") MultipartFile file,
+            @ModelAttribute Registry registry
+    ){
+        String filename = fileStorageService.storeFile(file);
+        String fileDownloadUri = "/images/" + filename;
+
+        registry.setImgUrl(fileDownloadUri);
+        return registryService.createRegistry(registry);
+    }
+
 }
