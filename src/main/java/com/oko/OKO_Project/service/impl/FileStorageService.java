@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileStorageService {
 
-    @Value("${file.upload-dir}")
+    @Value("${upload.folder}")
     private String fileUploadDir;
 
     public String storeFile(MultipartFile file) {

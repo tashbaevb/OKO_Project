@@ -29,6 +29,7 @@ public class AdminController {
     private final FileStorageService fileStorageService;
     private final RegistryService registryService;
     private final NewsService newsService;
+    private final VacancyService vacancyService;
 
 
     // НПА
@@ -175,6 +176,24 @@ public class AdminController {
 
         news.setImgUrl(fileDownloadUri);
         return newsService.createNews(news);
+    }
+
+    //Vacancy
+
+    @GetMapping("vacancy/getById/{id}")
+    public ResponseEntity<Vacancy> getVacancyById(@PathVariable Long id){
+        Optional<Vacancy> vacancy = vacancyService.getVacancyById(id);
+        return vacancy.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("vacancy/getAll")
+    public List<Vacancy> getVacancyAll(){
+        return vacancyService.getVacancyAll();
+    }
+
+    @PostMapping("vacancy/create")
+    public Vacancy createVacancy(@RequestBody Vacancy vacancy){
+        return vacancyService.createVacancy(vacancy);
     }
 
 }
