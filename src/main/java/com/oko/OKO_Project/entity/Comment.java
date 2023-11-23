@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Message {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +24,5 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    Message parentMessage;
+    Comment parentComment;
 }
