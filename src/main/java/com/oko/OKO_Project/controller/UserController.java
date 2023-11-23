@@ -1,12 +1,15 @@
 package com.oko.OKO_Project.controller;
 
 import com.oko.OKO_Project.dto.CommentDto;
-import com.oko.OKO_Project.entity.Comment;
-import com.oko.OKO_Project.entity.User;
+import com.oko.OKO_Project.entity.*;
+import com.oko.OKO_Project.enums.GovOrgansType;
+import com.oko.OKO_Project.enums.NpaType;
+import com.oko.OKO_Project.enums.UnionistsType;
 import com.oko.OKO_Project.mappers.CommentMapper;
 import com.oko.OKO_Project.repository.UserRepository;
-import com.oko.OKO_Project.service.CommentService;
+import com.oko.OKO_Project.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,17 @@ public class UserController {
     private final CommentService commentService;
     private final UserRepository userRepository;
     private final CommentMapper commentMapper;
+    private final NpaService npaService;
+    private final GovOrgansService govOrgansService;
+    private final UnionistsService unionistsService;
+    private final CoursesService coursesService;
+    private final AboutUsService aboutUsService;
+    private final RegistryService registryService;
+    private final NewsService newsService;
+    private final VacancyService vacancyService;
 
 
-    // Messages
+    // Comments
     @PostMapping("/comment/create")
     public CommentDto createComment(@RequestBody CommentDto commentDto, Authentication authentication) {
         String email = authentication.getName();
@@ -63,8 +74,9 @@ public class UserController {
         return commentMapper.convertToDTO(commentService.getById(commentId));
     }
 
+
     @GetMapping("/comment/getAll")
-    public List<Comment> getAllNpa() {
+    public List<Comment> getAllComment() {
         return commentService.getAllComment();
     }
 
@@ -96,5 +108,92 @@ public class UserController {
         }
 
         commentService.delete(commentId);
+    }
+
+
+    // NPA
+    @GetMapping("/npa/getByType/{type}")
+    public List<Npa> getNpaByType(@PathVariable NpaType type) {
+        return npaService.getNpaByType(type);
+    }
+
+
+    // Органы Управления
+    @GetMapping("/govOrgan/getByType/{type}")
+    public List<GovOrgan> getByGovOrganType(@PathVariable GovOrgansType type) {
+        return govOrgansService.getGovOrganByType(type);
+    }
+
+
+    // Члены Объединения
+    @GetMapping("/unionists/getByType/{type}")
+    public List<Unionists> getByUnionistsType(@PathVariable UnionistsType type) {
+        return unionistsService.getUnionistsByType(type);
+    }
+
+
+    // Курсы
+    @GetMapping("/courses/getAll")
+    public List<Courses> getAllCourses() {
+        return coursesService.getAllCourses();
+    }
+
+    @GetMapping("/courses/getById/{id}")
+    public ResponseEntity<Courses> getByCoursesId(@PathVariable Long id) {
+        Optional<Courses> courses = coursesService.getCoursesById(id);
+
+        return courses.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+
+    //About Us
+    @GetMapping("/aboutUs/getById/{id}")
+    public ResponseEntity<AboutUs> getByAboutUsId(@PathVariable Long id) {
+        Optional<AboutUs> aboutUs = aboutUsService.getAboutUsById(id);
+        return aboutUs.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("aboutUs/getAll")
+    public List<AboutUs> getAllAboutUs() {
+        return aboutUsService.getAllAboutUs();
+    }
+
+
+    // Registry
+    @GetMapping("registry/getById/{id}")
+    public ResponseEntity<Registry> getRegistryById(@PathVariable Long id) {
+        Optional<Registry> registry = registryService.getRegistryById(id);
+        return registry.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("registry/getAll")
+    public List<Registry> getRegistryAll() {
+        return registryService.getRegistryAll();
+    }
+
+
+    //News
+    @GetMapping("news/getAll")
+    public List<News> getNewsAll() {
+        return newsService.getNewsAll();
+    }
+
+    @GetMapping("news/getById/{id}")
+    public ResponseEntity<News> getNewsById(@PathVariable Long id) {
+        Optional<News> news = newsService.getNewsById(id);
+        return news.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+
+    //Vacancies
+    @GetMapping("vacancy/getById/{id}")
+    public ResponseEntity<Vacancy> getVacancyById(@PathVariable Long id) {
+        Optional<Vacancy> vacancy = vacancyService.getVacancyById(id);
+        return vacancy.map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("vacancy/getAll")
+    public List<Vacancy> getVacancyAll() {
+        return vacancyService.getVacancyAll();
     }
 }
