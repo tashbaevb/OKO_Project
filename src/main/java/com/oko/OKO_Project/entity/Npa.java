@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "npa")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,8 +20,14 @@ public class Npa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String title, text;
+    String title;
+
+    @ElementCollection
+    List<String> titleArray = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     NpaType npaType;
+
+    @ElementCollection
+    List<String> descriptions = new ArrayList<>();
 }

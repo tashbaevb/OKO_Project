@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "News")
@@ -24,8 +26,8 @@ public class News {
     @Column
     String imgUrl;
 
-    @Column
-    String text;
+    @ElementCollection
+    List<String> text = new ArrayList<>();
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)

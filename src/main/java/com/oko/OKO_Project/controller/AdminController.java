@@ -104,12 +104,8 @@ public class AdminController {
     }
 
     //AboutUS
-    @PostMapping(value = "/aboutUs/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public AboutUs createAboutUs(@RequestPart("imgUrl") MultipartFile file, @ModelAttribute AboutUs aboutUs) {
-        String fileName = fileStorageService.storeFile(file);
-        String fileDownloadUri = "/images/" + fileName;
-
-        aboutUs.setImgUrl(fileDownloadUri);
+    @PostMapping(value = "/aboutUs/create")
+    public AboutUs createAboutUs( @RequestBody AboutUs aboutUs) {
         return aboutUsService.createAboutUs(aboutUs);
     }
 
@@ -127,11 +123,8 @@ public class AdminController {
 
     //Registry
     @PostMapping(value = "registry/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Registry createRegistry(@RequestPart("imgUrl") MultipartFile file, @ModelAttribute Registry registry) {
-        String filename = fileStorageService.storeFile(file);
-        String fileDownloadUri = "/images/" + filename;
+    public Registry createRegistry(@RequestBody Registry registry) {
 
-        registry.setImgUrl(fileDownloadUri);
         return registryService.createRegistry(registry);
     }
 
@@ -149,7 +142,7 @@ public class AdminController {
 
     //News
     @PostMapping(value = "news/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public News createNews(@RequestPart("imgUrl") MultipartFile file, @ModelAttribute News news) {
+    public News createNews(@RequestPart("file") MultipartFile file, @ModelAttribute News news) {
         String filename = fileStorageService.storeFile(file);
         String fileDownloadUri = "/images/" + filename;
 

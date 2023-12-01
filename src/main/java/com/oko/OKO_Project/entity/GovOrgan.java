@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Regulatory_organs")
 @AllArgsConstructor
@@ -18,7 +21,11 @@ public class GovOrgan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String title, text;
+    @ElementCollection
+    List<String> title = new ArrayList<>();
+
+    @ElementCollection
+    List<String> descriptions = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     GovOrgansType govOrgansType;

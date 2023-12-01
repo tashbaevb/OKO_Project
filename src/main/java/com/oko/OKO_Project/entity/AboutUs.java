@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "aboutus")
 @AllArgsConstructor
@@ -18,9 +21,21 @@ public class AboutUs {
     Long id;
 
     @Column
-    String text;
+    String titleOne;
 
     @Column
-    String imgUrl;
+    String titleTwo;
+
+    @ElementCollection
+    List<String> Goals = new ArrayList<>();
+
+    @ElementCollection
+    List<String> descriptionOne = new ArrayList<>();
+
+    @ElementCollection
+    List<String> descriptionTwo = new ArrayList<>();
+
+    @ElementCollection
+    List<String> textArray = new ArrayList<>();
 
 }

@@ -1,11 +1,11 @@
 package com.oko.OKO_Project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,5 +19,22 @@ public class Courses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String title, text, description;
+    @Column
+    String titleOne;
+
+    @ElementCollection
+    List<String> textOne = new ArrayList<>();
+
+    @Column
+    String titleTwo;
+
+    @ElementCollection
+    List<String> textTwo = new ArrayList<>();
+
+    @Column
+    String aboutTheCourseTitle;
+
+    @ElementCollection
+    List<String> aboutTheCourse = new ArrayList<>();
+
 }

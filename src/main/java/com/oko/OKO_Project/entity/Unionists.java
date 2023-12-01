@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "union_members")
 @AllArgsConstructor
@@ -18,7 +21,10 @@ public class Unionists {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String title, text, description;
+    String title, text;
+
+    @ElementCollection
+    List<String> description = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     UnionistsType unionistsType;

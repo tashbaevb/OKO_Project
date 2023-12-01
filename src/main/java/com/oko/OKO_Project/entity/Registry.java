@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Registry")
 @AllArgsConstructor
@@ -17,11 +20,14 @@ public class Registry {
     Long id;
 
     @Column
-    String text;
+    String title;
 
-    @Column
-    String description;
+    @ElementCollection
+    List<String> titleArray = new ArrayList<>();
 
-    @Column
-    String imgUrl;
+    @ElementCollection
+    List<String> text = new ArrayList<>();
+
+    @ElementCollection
+    List<String> description = new ArrayList<>();
 }
